@@ -1,5 +1,6 @@
 from io import StringIO  # StringIO 임포트
 
+import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt  # matplotlib 임포트
 import pandas as pd  # pandas 임포트
 import streamlit as st  # streamlit 임포트
@@ -22,7 +23,17 @@ if uploaded_file is not None:  # BytesIO 객체
     st.write(df)
 
     # 그래프 추가 코드(이전에 배운 내용)
-    plt.rcParams["font.family"] = "AppleGothic"
+
+    # 코드 추가
+    def register_fonts():
+        font_files = fm.findSystemFonts(fontpaths=["./fonts"])
+        for font_file in font_files:
+            fm.fontManager.addfont(font_file)
+        fm._load_fontmanager(try_read_cache=False)
+
+    register_fonts()
+
+    plt.rcParams["font.family"] = "NanumGothic"
 
     first_line = (
         df[df["노선명"] == "1호선"]
